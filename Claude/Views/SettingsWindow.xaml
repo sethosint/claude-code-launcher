@@ -1,0 +1,330 @@
+﻿<Window
+    x:Class="ClaudeLauncher.Views.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="clr-namespace:ClaudeLauncher.UI.Helpers"
+    xmlns:converters="clr-namespace:ClaudeLauncher.UI.Converters"
+    mc:Ignorable="d"
+    Title="Settings"
+    Icon="/Assets/Icons/app.ico"
+    Height="700"
+    Width="820"
+    Background="{StaticResource ClaudeBackgroundBrush}"
+    WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter
+            x:Key="BoolToVisibilityConverter"/>
+        <converters:InverseBoolToVisibilityConverter
+            x:Key="InverseBoolToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="28">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock
+                FontSize="20"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource ClaudeTextBrush}"
+                Text="{Binding HeaderTitle}"/>
+            <TextBlock
+                Margin="0,4,0,0"
+                TextWrapping="Wrap"
+                Style="{StaticResource ClaudeSubtitleText}"
+                Text="{Binding HeaderSubtitle}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2"
+                  VerticalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+                <!-- CLAUDE CODE EXECUTABLE (shared, shown once) -->
+
+                <Border Style="{StaticResource ClaudeCardStyle}" Margin="0,0,0,16">
+                    <StackPanel>
+
+                        <TextBlock
+                            Text="Claude Code"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource ClaudeTextBrush}"
+                            Margin="0,0,0,4"/>
+
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ClaudeSecondaryTextBrush}"
+                            FontSize="12.5"
+                            Margin="0,0,0,12"
+                            Text="The CLI tool this launcher starts. Install it with: npm install -g @anthropic-ai/claude-code"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Grid.Column="0"
+                                Text="{Binding Configuration.Claude.Executable, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="Path to the claude or claude.cmd executable. Leave 'claude' if it's in your PATH."/>
+
+                            <Button
+                                Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource GhostButtonStyle}"
+                                Content="Detect"
+                                Command="{Binding AutoDetectClaudeCommand}"
+                                ToolTip="Try to find Claude Code automatically"/>
+                        </Grid>
+
+                        <TextBlock
+                            Margin="0,6,0,0"
+                            FontSize="11.5"
+                            Foreground="{StaticResource ClaudeSecondaryTextBrush}"
+                            Text="{Binding ClaudeDetectStatus}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <!-- KIRO CONNECTION -->
+
+                <Border Style="{StaticResource ClaudeCardStyle}" Margin="0,0,0,16">
+
+                    <StackPanel>
+
+                        <DockPanel Margin="0,0,0,4">
+                            <Border Style="{StaticResource ProviderChipStyle}" HorizontalAlignment="Left">
+                                <TextBlock FontSize="12" FontWeight="SemiBold"
+                                           Foreground="{StaticResource ClaudeTextBrush}"
+                                           Text="Kiro (OmniRoute)"/>
+                            </Border>
+                        </DockPanel>
+
+                        <TextBlock
+                            Margin="0,0,0,12"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ClaudeSecondaryTextBrush}"
+                            FontSize="12.5"
+                            Text="Free AI credits from Kiro. For more credits, add multiple Builder ID accounts in OmniRoute — it auto-switches when one runs out."/>
+
+                        <TextBlock
+                            Text="OmniRoute API Key"
+                            Style="{StaticResource ClaudeLabelText}"/>
+
+                        <Grid Margin="0,8,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <PasswordBox
+                                    helpers:PasswordBoxHelper.BoundPassword="{Binding Configuration.Claude.Token, Mode=TwoWay}"
+                                    Visibility="{Binding IsKiroTokenVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                                <TextBox
+                                    Text="{Binding Configuration.Claude.Token, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding IsKiroTokenVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+
+                            <Button
+                                Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Command="{Binding ToggleKiroTokenVisibilityCommand}"
+                                ToolTip="Show/hide token">
+                                <TextBlock Text="👁" FontSize="14"/>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock
+                            Text="OmniRoute Gateway URL"
+                            Style="{StaticResource ClaudeLabelText}"/>
+
+                        <TextBox
+                            Margin="0,8,0,0"
+                            Text="{Binding Configuration.Gateway.BaseUrl}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+                <!-- CUSTOM API — OPTIONAL -->
+
+                <Border Style="{StaticResource ClaudeCardStyle}" Margin="0,0,0,16">
+
+                    <StackPanel>
+
+                        <DockPanel Margin="0,0,0,4">
+                            <Border Style="{StaticResource ProviderChipStyle}" HorizontalAlignment="Left">
+                                <TextBlock FontSize="12" FontWeight="SemiBold"
+                                           Foreground="{StaticResource ClaudeTextBrush}"
+                                           Text="Custom API — Optional"/>
+                            </Border>
+                        </DockPanel>
+
+                        <TextBlock
+                            Margin="0,0,0,12"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ClaudeSecondaryTextBrush}"
+                            FontSize="12.5"
+                            Text="Skip this if you're using Kiro. For a paid alternative, any OpenAI-compatible endpoint works (e.g. OpenRouter — $1 free credit on signup). A local proxy translates requests automatically."/>
+
+                        <TextBlock
+                            Text="Preset"
+                            Style="{StaticResource ClaudeLabelText}"
+                            Margin="0,0,0,6"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                            <Button
+                                Style="{StaticResource GhostButtonStyle}"
+                                Content="OpenRouter"
+                                Margin="0,0,8,0"
+                                Command="{Binding ApplyOpenRouterPresetCommand}"
+                                ToolTip="Set URL to openrouter.ai — $1 free credit on signup, Claude models available"/>
+
+                        </StackPanel>
+
+                        <TextBlock
+                            Text="Base URL"
+                            Style="{StaticResource ClaudeLabelText}"/>
+
+                        <TextBox
+                            Margin="0,8,0,16"
+                            Text="{Binding Configuration.Completions.BaseUrl, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock
+                            Text="API Key"
+                            Style="{StaticResource ClaudeLabelText}"/>
+
+                        <Grid Margin="0,8,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <PasswordBox
+                                    helpers:PasswordBoxHelper.BoundPassword="{Binding Configuration.Completions.ApiKey, Mode=TwoWay}"
+                                    Visibility="{Binding IsCompletionsApiKeyVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                                <TextBox
+                                    Text="{Binding Configuration.Completions.ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding IsCompletionsApiKeyVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+
+                            <Button
+                                Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Command="{Binding ToggleCompletionsApiKeyVisibilityCommand}"
+                                ToolTip="Show/hide API key">
+                                <TextBlock Text="👁" FontSize="14"/>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock
+                            Text="Model ID override (optional)"
+                            Style="{StaticResource ClaudeLabelText}"/>
+
+                        <TextBox
+                            Margin="0,8,0,0"
+                            Text="{Binding Configuration.Completions.Model, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock
+                            Margin="0,6,0,0"
+                            FontSize="11.5"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ClaudeSecondaryTextBrush}"
+                            Text="Override the model sent to the endpoint. Leave blank to pick on the main screen."/>
+
+                    </StackPanel>
+
+                </Border>
+
+                <!-- BEHAVIOR -->
+
+                <Border Style="{StaticResource ClaudeCardStyle}">
+                    <StackPanel>
+
+                        <TextBlock
+                            Text="Behavior"
+                            Style="{StaticResource ClaudeLabelText}"
+                            Margin="0,0,0,12"/>
+
+                        <CheckBox
+                            Content="Automatically switch provider when credits run out"
+                            IsChecked="{Binding Configuration.Launcher.AutoFallback}"
+                            Style="{StaticResource ClaudeCheckBoxStyle}"/>
+
+                        <CheckBox
+                            Margin="0,10,0,0"
+                            Content="Create desktop shortcut"
+                            IsChecked="{Binding CreateDesktopShortcut}"
+                            Style="{StaticResource ClaudeCheckBoxStyle}"
+                            Visibility="{Binding IsFirstRun, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <Border
+        Grid.Row="3"
+        Padding="0,16,0,0">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontSize="12.5"
+                    TextWrapping="Wrap"
+                    Foreground="{StaticResource ClaudeErrorBrush}"
+                    Text="{Binding ValidationMessage}"
+                    Visibility="{Binding HasValidationMessage, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal">
+
+                    <Button
+                    Width="110"
+                    Height="40"
+                    Margin="0,0,12,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Content="Cancel"
+                    Command="{Binding CancelCommand}"
+                    Visibility="{Binding ShowCancelButton, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <Button
+                    Width="120"
+                    Height="40"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Content="{Binding SaveButtonText}"
+                    Command="{Binding SaveCommand}" />
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</Window>

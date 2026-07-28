@@ -1,0 +1,50 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="ClaudeFontFamily">Segoe UI</FontFamily>
+    <FontFamily x:Key="ClaudeMonoFontFamily">Cascadia Mono, Consolas</FontFamily>
+
+    <Style x:Key="ClaudeTitleText"
+           TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{StaticResource ClaudeFontFamily}"/>
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource ClaudeTextBrush}"/>
+
+    </Style>
+
+    <Style x:Key="ClaudeSubtitleText"
+           TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{StaticResource ClaudeFontFamily}"/>
+        <Setter Property="FontSize" Value="13.5"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource ClaudeSecondaryTextBrush}"/>
+
+    </Style>
+
+    <Style x:Key="ClaudeLabelText"
+           TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{StaticResource ClaudeFontFamily}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource ClaudeTextBrush}"/>
+
+    </Style>
+
+    <Style x:Key="ClaudeMonoText"
+           TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{StaticResource ClaudeMonoFontFamily}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource ClaudeSecondaryTextBrush}"/>
+
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,38 @@
+{
+  "Provider": "Kiro",
+  "Gateway": {
+    "BaseUrl": "http://localhost:20128",
+    "HealthEndpoint": "/v1/models",
+    "AutoStart": true,
+    "StartupTimeoutSeconds": 30,
+    "Executable": "omniroute.cmd",
+    "Arguments": "--no-open"
+  },
+  "CompletionsGateway": {
+    "BaseUrl": "http://localhost:4242",
+    "HealthEndpoint": "/health",
+    "AutoStart": true,
+    "StartupTimeoutSeconds": 25
+  },
+  "Claude": {
+    "Executable": "claude",
+    "Model": "kr/claude-sonnet-4.5",
+    "Token": ""
+  },
+  "Completions": {
+    "BaseUrl": "https://openrouter.ai/api/v1",
+    "ApiKey": "",
+    "Model": "anthropic/claude-sonnet-4"
+  },
+  "Launcher": {
+    "CloseAfterLaunch": false,
+    "Theme": "Dark",
+    "AutoFallback": true,
+    "PrivacyMode": true,
+    "PreflightAuthCheck": true,
+    "WorkingDirectory": "",
+    "RecentProjects": [],
+    "SetupCompleted": false,
+    "LaunchWithoutProject": false
+  }
+}

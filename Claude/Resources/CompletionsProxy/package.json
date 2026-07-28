@@ -1,0 +1,16 @@
+{
+  "name": "completions-proxy",
+  "version": "1.0.0",
+  "description": "Local proxy for Completions — runs Claude Code with your free API key",
+  "main": "server.js",
+  "bin": {
+    "completions": "./bin/completions.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

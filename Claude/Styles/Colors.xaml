@@ -1,0 +1,34 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Claude Code dark theme.
+        Warm near-black surfaces + the Claude rust-orange accent (#D97757),
+        matching the official Claude Code CLI / claude.ai visual language.
+    -->
+
+    <SolidColorBrush x:Key="ClaudeBackgroundBrush" Color="#191817"/>
+    <SolidColorBrush x:Key="ClaudeSurfaceBrush" Color="#232120"/>
+    <SolidColorBrush x:Key="ClaudeSurfaceRaisedBrush" Color="#2B2927"/>
+    <SolidColorBrush x:Key="ClaudeBorderBrush" Color="#39362F"/>
+    <SolidColorBrush x:Key="ClaudeBorderSubtleBrush" Color="#2E2C29"/>
+
+    <SolidColorBrush x:Key="ClaudePrimaryBrush" Color="#D97757"/>
+    <SolidColorBrush x:Key="ClaudePrimaryHoverBrush" Color="#E38B6D"/>
+    <SolidColorBrush x:Key="ClaudePrimaryPressedBrush" Color="#C2663F"/>
+    <SolidColorBrush x:Key="ClaudePrimarySoftBrush" Color="#332420"/>
+
+    <SolidColorBrush x:Key="ClaudeTextBrush" Color="#F3EEE6"/>
+    <SolidColorBrush x:Key="ClaudeSecondaryTextBrush" Color="#A6A099"/>
+    <SolidColorBrush x:Key="ClaudeMutedTextBrush" Color="#726C63"/>
+
+    <SolidColorBrush x:Key="ClaudeSuccessBrush" Color="#7FB878"/>
+    <SolidColorBrush x:Key="ClaudeWarningBrush" Color="#E0A94E"/>
+    <SolidColorBrush x:Key="ClaudeErrorBrush" Color="#E0685A"/>
+
+    <!-- Provider accent chips -->
+    <SolidColorBrush x:Key="ClaudeKiroChipBrush" Color="#D97757"/>
+    <SolidColorBrush x:Key="ClaudeCompletionsChipBrush" Color="#6B8FD9"/>
+
+</ResourceDictionary>

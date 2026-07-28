@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+publish/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.csproj.DotSettings.user
+
+# Rider / JetBrains
+.idea/
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Personal guides (not for the repo)
+RELEASE_GUIDE_RU.md

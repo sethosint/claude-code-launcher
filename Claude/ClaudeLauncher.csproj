@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Version>1.2.0</Version>
+    <AssemblyTitle>Claude Code Launcher</AssemblyTitle>
+    <Description>Unofficial launcher for Claude Code with Kiro and Custom API provider support.</Description>
+    <ApplicationIcon>Assets\Icons\app.ico</ApplicationIcon>
+</PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="config.json" />
+    <None Remove="Assets\Icons\app.ico" />
+    <None Remove="Assets\Icons\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\app.ico" />
+    <Resource Include="Assets\Icons\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      config.json is the *live* settings file: the Settings window writes the
+      user's API keys, model choice and provider straight into the copy next
+      to the executable. It is therefore seeded once, never overwritten — with
+      CopyToOutputDirectory the template in the project silently reverted those
+      saved settings on every rebuild (that is how "anthropic/claude-sonnet-4"
+      came back after the model had already been switched to 4.6).
+    -->
+    <None Include="config.json" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+
+  <Target Name="SeedDefaultConfig" AfterTargets="Build"
+          Condition="!Exists('$(TargetDir)config.json')">
+    <Copy SourceFiles="config.json" DestinationFolder="$(TargetDir)" />
+  </Target>
+
+  <ItemGroup>
+    <!--
+      Bundled local proxy for the Custom API provider. Claude Code only
+      speaks Anthropic's own API format, so this Node.js proxy translates
+      between Anthropic format and OpenAI-compatible format. Requires
+      Node.js on the user's machine; node_modules is bundled so no
+      "npm install" is needed at runtime.
+    -->
+    <Content Include="Resources\CompletionsProxy\**\*.*">
+      <Link>CompletionsProxy\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\Animations.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Styles\Colors.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Styles\Controls.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Styles\Typography.xaml">
+      <Generator></Generator>
+    </Page>
+  </ItemGroup>
+
+</Project>
